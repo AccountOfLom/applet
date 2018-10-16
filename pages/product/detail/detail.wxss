@@ -1,0 +1,18 @@
+.detail-node {
+    float: left;
+    width: 33%;
+    border: 1px solid #ccc;
+    border-right: none;
+    text-align: center;
+}
+
+
+.detail-node-first {
+    float: left;
+    width: 33%;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
+    text-align: center;
+}
+

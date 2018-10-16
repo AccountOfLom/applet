@@ -1,0 +1,53 @@
+.scroll-view_H{
+    white-space: nowrap;
+}
+.scroll-view-item{
+    height: 200rpx;
+}
+.scroll-view-item_H{
+    display: inline-block;
+    width: 25%;
+    height: 80rpx;
+    font-size: 12pt;
+}
+
+.navs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-item {
+  width: 25%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 10rpx 0rpx; 
+}
+
+.nav-item .nav-image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+
+.nav-item text {
+  padding-top: 10rpx;
+  font-size: 30rpx;
+}
+
+.title {
+    float: left;
+    width: 25%;
+    text-align: center;
+    font-size: 13pt;
+    height: 50rpx;
+    line-height: 50rpx;
+    margin: 15rpx 0rpx;
+    color: black;
+}
+
+.title-view {
+    height: 80rpx;
+    background-color: #fff;
+    border-bottom: 1rpx solid #ccc; 
+}

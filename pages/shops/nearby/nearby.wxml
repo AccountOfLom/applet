@@ -1,0 +1,51 @@
+<view class="section">
+  <view class="flex-wrp" style="flex-direction:row;">
+    <view class="flex-item ">
+      <image src="../../../image/nearby.png" style='width:50rpx;height:50rpx;'></image>
+    </view>
+    <view class="flex-item" style="line-height:50rpx;word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+      <text>{{address}}</text>
+    </view>
+  </view>
+</view>
+<view class="page">
+  <view class="page__bd"> 
+      <view class="weui-search-bar" style="background-color:#F4F3E6;">
+          <view class="weui-search-bar__form">
+              <view class="weui-search-bar__box">
+                  <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                  <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+                  <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                      <icon type="clear" size="14"></icon>
+                  </view>
+              </view>
+              <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                  <icon class="weui-icon-search" type="search" size="14"></icon>
+                  <view class="weui-search-bar__text">搜索</view>
+              </label>
+          </view>
+          <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="getNearbyStore">确定</view>
+          <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+      </view>
+  </view>
+</view>
+<view class='empty_store' wx:if="{{storeArr === undefined || storeArr.length == 0}}">
+  暂无门店数据
+</view>
+<block  wx:for="{{storeArr}}">
+  <navigator class="section" open-type="navigate" url="/pages/store/index/index?store_type={{item.store_type}}&id={{item.id}}" >
+    <view class="flex-wrp-1" style="flex-direction:row;">
+      <image class="store_img" src="{{img_url}}{{item.img}}" style=''></image>
+      <view class="page-section" style='width:480rpx;'>
+        <view class="store_name" style=''>{{item.name}}</view>
+        <view class="store_address" style="">
+          <text class='item-text' style='width:440rpx;'>地址：{{item.address}}</text>
+        </view>
+        <view class="store_about" style="">
+          <view class="store_pop" style=''>人气：<text style='color:#FF6600;font-weight:bold;'>{{item.pop}}</text></view>
+          <view class="store_distance" style=''>{{item.distance}} Km</view>
+        </view>
+      </view>
+    </view>
+  </navigator>
+</block>

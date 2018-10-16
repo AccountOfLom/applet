@@ -1,0 +1,278 @@
+<view style='height:200rpx;border-bottom:2rpx solid #ddd;display:flex;flex-direction:column;'>
+  <view style='height:50rpx;'></view>
+  <view style='height:50rpx;font-size:14pt;margin-left:30rpx;'>请选择要创建的门店类型：</view>
+  <view style='display:flex;flex-direction:row;justify-content:center;align-items:center;'>
+    <view style='line-height:100rpx;text-align:right;font-size:14pt;margin-right:10rpx;' bindtap="checkAgent">代理商门店</view>
+    <image wx:if="{{agent}}" src='../../../image/yuanHL.png' style='width:40rpx;height:40rpx;margin-right:25rpx;' bindtap="checkAgent"></image>
+    <image wx:else src='../../../image/yuan.png' style='width:40rpx;height:40rpx;margin-right:25rpx;' bindtap="checkAgent"></image>
+    <!-- <view style='line-height:100rpx;text-align:right;font-size:14pt;margin:0 10rpx 0 25rpx;' bindtap='checkManufacturers'>厂家门店</view>
+    <image wx:if="{{manufacturers}}" src='../../../image/yuanHL.png' style='width:40rpx;height:40rpx;' bindtap='checkManufacturers'></image> -->
+    <!-- <image  wx:else src='../../../image/yuan.png' style='width:40rpx;height:40rpx;' bindtap='checkManufacturers'></image> -->
+  </view>
+</view>
+<form bindsubmit="formSubmit">
+  <view class="" style='display:flex;flex-direction:column;'>
+    <block wx:if="{{agent}}">
+      <view class="item-height" style='display:flex;flex-direction:row;border-bottom:2rpx solid #ddd;'>
+        <view class="item-height" style='display:flex;flex-direction:row;'>
+          <text class='require_icon'>*</text>
+          <view  class="" style='min-width:150rpx;text-align:left;line-height:80rpx;font-size:11pt;'>门店名称:</view>
+        </view>
+        <view class="item-height" style=''>
+            <input class="item-height item-margin" style='text-align:left;line-height:80rpx;' name="name" value="{{store_name}}" placeholder=""/>
+        </view>
+      </view>
+    </block>
+    <view class="item-height" style='display:flex;flex-direction:row;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view wx:if="{{agent}}" class="" style='min-width:150rpx;text-align:left;line-height:80rpx;font-size:11pt;'>门店联系人:</view>
+        <view wx:if="{{manufacturers}}" class="" style='min-width:150rpx;text-align:left;line-height:80rpx;font-size:11pt;'>门市联系人:</view>
+      </view>
+      <view class="item-height" style=''>
+          <input class="item-height item-margin" style='text-align:left;line-height:80rpx;' name="contact" value="{{store_contact}}" placeholder=""/>
+      </view>
+    </view>
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view wx:if="{{agent}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门店电话:</view>
+        <view wx:if="{{manufacturers}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门市电话:</view>
+      </view>
+      <view class="item-height" style='' >
+          <input class="item-height item-margin" style='text-align:left;line-height:80rpx;' name="store_phone" value="{{phoneNum}}" placeholder="手机号码" bindinput='inputPhoneNum'/>
+      </view>
+      <view class="item-height" style=''bindtap='getSendMsg'>
+        <view wx:if="{{send}}" class="item-min-width" style='text-align:center;border:2rpx solid #f60;margin:15rpx 60rpx 0 0;'>发送验证</view>
+        <view wx:if="{{alreadySend}}" class="item-min-width" style='text-align:center;border:2rpx solid #f60;margin:15rpx 60rpx 0 0;'>{{second+"s"}}</view>
+      </view>
+    </view>
+    <view class="item-height" style='display:flex;flex-direction:row;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view class="" style='min-width:150rpx;text-align:left;line-height:80rpx;font-size:11pt;'>手机验证码:</view> 
+      </view>
+      <view class="item-height" style=''>
+          <input class="item-height item-margin" style='text-align:left;line-height:80rpx;' name="code" placeholder=""/>
+      </view>
+    </view>
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view wx:if="{{agent}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门店微信:</view>
+        <view wx:if="{{manufacturers}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门市微信:</view>
+      </view>
+      <view class="item-height" style=''>
+          <input class="item-height item-margin" style='text-align:left;line-height:80rpx;' name="store_wx" value='{{store_wx}}' placeholder=""/>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;' data-type="1" bindtap='gotoShow'>
+          <view class="" style='line-height:80rpx;min-width:100rpx;'>二维码</view>
+          <image src='../../../image/QRcode.png' style='margin:22.5rpx 60rpx 25rpx 0;width:35rpx;height:35rpx;'></image>
+      </view>
+    </view>
+
+     <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+          <text class='require_icon'>*</text>
+         <view wx:if="{{agent}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门店地区:</view>
+        <view wx:if="{{manufacturers}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门市地区:</view>
+      </view>
+      <view class="item-height" style=''>
+        <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+          <view class="item-height" style='text-align:left;line-height:80rpx;'>{{region[0]}}{{region[1]}}{{region[2]}}</view>
+        </picker>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+          <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+
+
+    <!-- <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/required_tip.png' style='margin:25rpx 10rpx 25rpx 10rpx;width:30rpx;height:30rpx;'></image>
+        <view wx:if="{{agent}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门店地区:</view>
+        <view wx:if="{{manufacturers}}" class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门市地区:</view>
+      </view>
+      <view class="item-height" style=''>
+        <picker mode="selector" bindchange="bindProvinceChange" value="{{provinceIndex}}" range-key="name" range="{{province}}">
+          <view wx:if="{{provinceIndex}}" class="item-height" style='text-align:left;line-height:80rpx;'>{{province[provinceIndex].name}}</view>
+          <view  wx:else class="item-height" style='text-align:left;line-height:80rpx;'>请选择</view>
+        </picker>  
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/required_tip.png' style='margin:25rpx 10rpx 25rpx 10rpx;width:30rpx;height:30rpx;'></image>
+        <view class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>市:</view>
+      </view>
+      <view class="item-height" style=''>
+        <picker mode="selector" bindchange="bindCityChange" value="{{cityIndex}}" range-key="name" range="{{city}}">
+          <view wx:if="{{cityIndex}}" class="item-height" style='text-align:left;line-height:80rpx;'>{{city[cityIndex].name}}</view>
+          <view  wx:else class="item-height" style='text-align:left;line-height:80rpx;'>请选择</view>
+        </picker>  
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/required_tip.png' style='margin:25rpx 10rpx 25rpx 10rpx;width:30rpx;height:30rpx;'></image>
+        <view class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>区/县:</view>
+      </view>
+      <view class="item-height" style=''>
+        <picker mode="selector" bindchange="bindDistrictChange" value="{{districtIndex}}" range-key="name" range="{{district}}">
+          <view wx:if="{{districtIndex}}" class="item-height" style='text-align:left;line-height:80rpx;'>{{district[districtIndex].name}}</view>
+          <view  wx:else class="item-height" style='text-align:left;line-height:80rpx;'>请选择</view>
+        </picker>  
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view> -->
+
+
+    <view class="item-height" style='display:flex;flex-direction:row;border-bottom:2rpx solid #ddd;'  >
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>乡/镇/街道:</view>
+      </view>
+      <view class="item-height item-margin" style=''>
+          <input type="hidden" class="item-height " style='text-align:left;line-height:80rpx;' value='{{town}}' name="town" placeholder=""/>
+      </view>
+    </view>
+
+    <view class="item-height" style='display:flex;flex-direction:row;border-bottom:2rpx solid #ddd;'  >
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>详细地址:</view>
+      </view>
+      <view class="item-height item-margin" style=''>
+          <input type="hidden" class="item-height " style='text-align:left;line-height:80rpx;' value='{{address}}' name="address" placeholder=""/>
+      </view>
+    </view>
+
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:20rpx solid #ddd;'  data-type="2" bindtap='gotoShow'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>门头照片:</view>
+      </view>
+      <view class="item-height" style=''>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+
+    <block wx:if="{{manufacturers}}">
+      <view class="item-height" style='display:flex;flex-direction:row;border-bottom:2rpx solid #ddd;border-top:20rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view class="" style='text-align:left;line-height:80rpx;font-size:11pt;'>厂家名称:</view>
+      </view>
+      <view class="item-height" style=''>
+          <input name="factory_name" class="item-height item-margin" style='text-align:left;line-height:80rpx;' value='{{store_name}}' placeholder="最多12个字"/>
+      </view>
+    </view>
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:20rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='require_icon'>*</text>
+        <view  class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>厂家地址:</view>
+      </view>
+      <view class="item-height" style=''>
+          <input class="item-height" name="factory_address" style='text-align:left;line-height:80rpx;' value='{{factory_address}}' placeholder=""/>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <view class="" style='line-height:80rpx;min-width:140rpx;'></view>
+          <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+    </block>
+  </view>
+  <view class="" style='display:flex;flex-direction:column;'>
+    <navigator  url="createCategory/createCategory" class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+          <text class='require_icon'>*</text>
+          <view class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>经营类别:</view>
+        </view>
+      <view class="item-height" style=''>
+          <text class="item-height " style='text-align:left;line-height:80rpx;'>{{category_name}}</text>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </navigator>
+
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;' data-type="3" bindtap='gotoShow'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='normal-icon'>.</text>
+        <view class="item-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>营业执照:</view>
+      </view>
+      <view class="item-height" style=''>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='normal-icon'>.</text>
+        <view class="item-two-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>负责人姓名:</view>
+      </view>
+      <view class="item-height" style=''>
+          <input class="item-height" style='text-align:left;line-height:80rpx;' name="user_name" value='{{user_name}}' placeholder=""/>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='normal-icon'>.</text>
+        <view class="item-two-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>负责人电话:</view>
+      </view>
+      <view class="item-height" style=''>
+          <input class="item-height" style='text-align:left;line-height:80rpx;' name="phone" value='{{phone}}' placeholder=""/>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+          <image src='../../../image/youbiao.png' style='margin:18rpx 60rpx 25rpx 0;width:45rpx;height:45rpx;'></image>
+      </view>
+    </view>
+
+    <view class="item-height" style='display:flex;flex-direction:row;justify-content:space-between;border-bottom:2rpx solid #ddd;'>
+      <view class="item-height" style='display:flex;flex-direction:row;'>
+        <text class='normal-icon'>.</text>
+        <view class="item-two-min-width" style='text-align:left;line-height:80rpx;font-size:11pt;'>负责人微信:</view>
+      </view>
+      <view class="item-height" style=''>
+          <input class="item-height item-margin" style='text-align:left;line-height:80rpx;' name="wx_account" value='{{wx_account}}' placeholder=""/>
+      </view>
+      <view class="item-height" style='display:flex;flex-direction:row;' data-type="1" bindtap='gotoShow'>
+          <view class="" style='line-height:80rpx;min-width:100rpx;'>二维码</view>
+          <image src='../../../image/QRcode.png' style='margin:22.5rpx 60rpx 25rpx 0;width:35rpx;height:35rpx;'></image>
+      </view>
+    </view>
+
+  </view>
+
+  <checkbox-group bindchange="bindAgreeChange">
+    <label class="weui-agree" for="weuiAgree">
+      <view class="weui-agree__text">
+        <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
+        <view class="weui-agree__checkbox-icon">
+            <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
+        </view>
+        阅读并同意<navigator url="" class="weui-agree__link">《99家具网服务协议》</navigator>
+      </view>
+    </label>
+  </checkbox-group>
+  <view class="weui-btn-area" >
+    <button class="weui-btn" style='background-color:#f60;' type="primary" bindtap="showTopTips" formType="submit">确定</button>
+  </view>
+</form>

@@ -1,0 +1,131 @@
+@import 'style/weui.wxss';
+@import "/wxParse/wxParse.wxss";
+page {
+    background-color: #f4f3e6;
+    font-size: 11pt;
+    font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+}
+
+.clear {
+    clear: both;
+}
+
+.left-margin {
+    margin-left: 30rpx;
+}
+
+.item-height {
+    height: 80rpx;
+}
+
+.item {
+    line-height: 80rpx;
+    border-bottom: 1px solid #CCC;
+}
+
+.tip-font {
+    font-size: 10pt;
+    color: #f60;
+}
+
+.icon {
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.icon-sm {
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.icon-md {
+    width: 50rpx;
+    height: 50rpx;
+}
+
+.item-product {
+    width: 50%;
+    height: 420rpx;
+}
+
+.item-price {
+    font-weight: 700;
+    font-size: 13pt;
+    color: #f60;
+}
+
+.item-introduce {
+    height: 50rpx;
+}
+
+.tarbar {
+    width: 100%;
+    height: 100rpx;
+    text-align: center;
+    position: fixed;
+    bottom: 0rpx;
+    left: 0rpx;
+    z-index: 999;
+    background-color: #f60;
+}
+
+.item-tarbar{
+    float:left;
+}
+
+.item-tarbar view{
+    font-size:8pt;
+    height:30rpx;
+    line-height:30rpx;
+}
+
+.item-tarbar image{
+    height:45rpx;
+    width:45rpx;
+    margin-top:15rpx;
+}
+
+.item-hr{
+    background-color:#ddd;
+    height:8rpx;
+}
+
+.page__bd {
+    padding-bottom: 5px;
+}
+
+.page__title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.section {
+    margin-bottom: 0px;
+}
+
+.section_gap {
+    padding: 0 0px;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+}
+
+.section__title {
+    margin-bottom: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.section_gap .section__title {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.float-left{
+    float: left;
+}
+
+.float-right{
+    float: right;
+}

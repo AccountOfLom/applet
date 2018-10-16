@@ -1,0 +1,20 @@
+.weui-cells{
+  background-color: #F4F3E6
+}
+.item-margin{
+  margin-left:30rpx;
+}
+.item-min-width{
+  min-width:160rpx;
+}
+.require_icon{
+  color:#f60;
+  margin:25rpx 10rpx 25rpx 10rpx;
+}
+.normal-icon{
+  color: black;
+  margin:25rpx 10rpx 25rpx 10rpx;
+}
+.item-two-min-width{
+  min-width:200rpx;
+}

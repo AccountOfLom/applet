@@ -1,0 +1,95 @@
+<import src="../../../wxParse/wxParse.wxml" />
+
+<view style='margin-bottom:100rpx;'>
+    <view class="section">
+        <view style='border:1px solid #ccc;background-color:#FFF;height:80rpx;margin:10rpx 0rpx;'>
+            <view style='width:100%;height:80rpx;line-height:80rpx;'>
+                <view class="flex-item float-left">
+                    <image src="/image/title.png" style='width:50rpx;height:50rpx;'></image>
+                </view>
+                <view class='float-left' style='padding:0rpx 15rpx;'>
+                    标题：
+                </view>
+                <input class='float-left' bindblur='inputTyping' placeholder="请输入标题" style='padding:15rpx 0rpx;' value='{{contentArr.title}}'/>
+            </view>
+        </view>
+        <view style='border:1px solid #ccc;background-color:#FFF;height:80rpx;'>
+            <picker bindchange="bindPickerChange" value="{{pickerIndex}}" range="{{classifyNameArr}}">
+                <view style='width:100%;height:80rpx;line-height:80rpx;'>
+                    <view class="flex-item float-left">
+                        <image src="/image/classify.png" style='width:50rpx;height:50rpx;'></image>
+                    </view>
+                    <view class='picker float-left' style='padding:0rpx 15rpx;'>
+                        动态类别：{{classifyArr[pickerIndex].classify_name}}
+                    </view>
+                    <image class='icon float-right' style="margin:20rpx;" src='/image/arrowright.png'></image>
+                </view>
+            </picker>
+        </view>
+        <block wx:if="{{contentArr.music != ''}}">
+            <view class="flex-wrp" style="flex-direction:row;">
+                <view class="flex-item ">
+                    <image src="/image/music.png" style='width:50rpx;height:50rpx;' bindtap='playVoice' data-voice-resource="{{music_url}}{{contentArr.music}}"></image>
+                </view>
+                <view class="flex-item" style="width:85%;line-height:50rpx;word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    <text bindtap='playVoice' data-voice-resource="{{music_url}}{{contentArr.music}}">{{contentArr.music_name}}</text>
+                    <navigator url='/pages/music/music?saveType=2&articleId={{articleId}}' style='display:inline;float:right;color:#ccc;font-weight:400'>
+                        更换
+                    </navigator>
+                </view>
+            </view>
+        </block>
+        <block wx:if="{{contentArr.music == ''}}">
+            <view class="flex-wrp" style="flex-direction:row;">
+                <view class="flex-item ">
+                    <image src="/image/tianjia.png" style='width:50rpx;height:50rpx;'></image>
+                </view>
+                <view class="flex-item" style="line-height:50rpx;word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    <navigator url='/pages/music/music?saveType=2&articleId={{articleId}}'>
+                        点击添加背景音乐
+                    </navigator>
+                </view>
+            </view>
+        </block>
+    </view>
+    <view class='product-box' wx:for="{{contentArr.items}}">
+        <view class="section">
+            <view class="flex-wrp-1" style="flex-direction:row;">
+                <view class="flex-item-1">
+                    <image src="/image/shanchu.png" data-item-key="{{index}}" bindtap="delBox" style='width:50rpx;height:50rpx;'></image>
+                </view>
+                <view class="" style='padding:20rpx 10rpx 10rpx 0rpx'>
+                    <image data-item-key="{{index}}" src="{{img_url}}{{item.img}}" wx:if="{{item.img != ''}}" style='width:250rpx;height:200rpx;' bindtap="uploadImg" />
+                    <image data-item-key="{{index}}" src="/image/default_img.png" wx:else style='width:250rpx;height:200rpx;' bindtap="uploadImg" />
+                </view>
+                <view class="page-section">
+                    <view class="textarea-wrp" style='padding:10rpx;width:380rpx;height:220rpx;'>
+                        <navigator url='/pages/editor/editor?itemKey={{index}}&editorType=article&articleId={{articleId}}' wx:if="{{item.text != ''}}">
+                            <template is="wxParse" data="{{wxParseData:item.format_text.nodes}}" />
+                        </navigator>
+                        <navigator url='/pages/editor/editor?itemKey={{index}}&editorType=article&articleId={{articleId}}' wx:else style='width:100%;height:200rpx;'>
+                            点击添加文字
+                        </navigator>
+                    </view>
+                </view>
+                <!-- <view class="sign" style="flex-direction:column;padding-left:20rpx">
+                    <image src="/image/shangbiao.png" style='width:50rpx;height:50rpx;'></image>
+                    <view style='width:50rpx;height:130rpx;'></view>
+                    <image src="/image/xiabiao.png" style='width:50rpx;height:50rpx;'></image>
+                </view> -->
+            </view>
+        </view>
+    </view>
+    <view class='add_img' data-about-node-type="1" bindtap="addBox">
+        <image src='/image/tianjia.png' style='width:50rpx;height:50rpx;'></image>
+    </view>
+</view>
+
+
+<button bindtap="saveArticle" style='width:100%;height:80rpx;line-height:80rpx;color:#FFF;font-weight:400;background-color:#FF6600;position: fixed;bottom: 0;'>保存</button>
+<loading hidden="{{loadingHidden}}">
+    加载中...
+</loading>
+<loading hidden="{{recordingHidden}}">
+    录制中...
+</loading>
