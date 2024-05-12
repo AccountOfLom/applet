@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.net/jquery/1.10.2/jquery.min.js">
+    </script>
+        <style>
+            #title > td {
+                font-size: 20px;
+            }
+            td {
+                padding-right: 10px;
+            }
+        </style>
+</head>
+<body>
+    <center>
+        <div style="margin-top: 60px;margin-bottom: 30px;">
+            <h3>百度地图搜索</h3>
+            关键字<input type="text" name="keyword" id="keyword">&nbsp;
+            城市<input type="text" name="city" id="city">&nbsp;
+            <button onclick="req()">查询</button>
+
+        </div>
+
+        <div>
+            <table id="data-tab"  style="border: 1px #f4f4f4 solid;">
+                <!-- <tr id="title">
+                    <td>店名</td>
+                    <td>电话</td>
+                    <td>地址</td>
+                </tr> -->
+                <!-- <tr>
+                    <td>名门静音门锁(赣州店)</td>
+                    <td>13177762716</td>
+                    <td>赣州市章贡区粮油街大拇指幼儿园东南侧约50米</td>
+                </tr> -->
+            </table>
+            <div id="footer" style="display: none;">
+                第 <b><span id="page-index" >1</span></b> 页
+                &emsp;
+                <button onclick="pre()">上一页</button>
+                &emsp;
+                <button onclick="next()">下一页</button>
+            </div>
+        </div>
+    </center>
+</body>
+</html>
+
+<script>
+
+    //下一页
+    function next()
+    {
+        //获取当前页码
+        var pageIndex = $('#page-index').text();
+        //当前页码 + 1，注意，做运算前，字符串需先转为数字
+        var curPageIndex = parseInt(pageIndex) + 1;
+        //更新页码
+        $('#page-index').text(curPageIndex)
+        req();
+    }
+
+    //上一页
+    function pre()
+    {
+        //获取当前页码
+        var pageIndex = $('#page-index').text();
+        if (pageIndex == 1) {
+            alert("已经在第一页了！");
+            return;
+        }
+        //当前页码 - 1，注意，做运算前，字符串需先转为数字
+        var curPageIndex = parseInt(pageIndex) - 1;
+        //更新页码
+        $('#page-index').text(curPageIndex)
+        req();
+    }
+
+
+    //发出ajax请求，获取数据
+    function req()
+    {
+        //显示页脚
+        $('#footer').css('display', 'block');
+
+        //每次请求数据前，先清理掉table表格中的所有行
+        $('tr').remove();
+
+        //获取 input 中的值，关键字
+        var keyword = $('#keyword').val();
+        var city = $('#city').val();
+        var pageIndex = $('#page-index').text();
+
+        //ajax是js用来发出网络请求的方法
+        // ajax 也是 http 请求
+        $.ajax({
+            "url":"https://html.7qiaoban.top/test/index.php", // 这是我的服务器接口地址，做了中转
+            "type":"GET",
+            "data":{
+                "keyword": keyword,
+                "boundary":"region(" + city + ")", //字符串拼接方式，同 python
+                "page_size":20,
+                "page_index":pageIndex
+            },
+            success:function(res) {
+                //数据请求成功后，会执行这里得到代码
+                // console.log(res)
+                
+                //注意，当前拿到的数据是 字符串类型，必须转为 对象类型
+                var jsonObj = JSON.parse(res);
+                //声明一个data变量，
+                var data = jsonObj.data;
+
+                //添加表头
+                $('#data-tab').append("<tr id='title'>"+
+                    "<td>店名</td>" +
+                    "<td>电话</td>" +
+                    "<td>地址</td>" +
+                    "</tr>");
+                
+                // 遍历/循环 所得到的 家具店的信息
+                for (i in data) {
+                    // console.log(data[i])
+                    //在这里，把单个家具店的信息，组装成 table 中的 tr
+                    var tr = "<tr>" + 
+                    "<td>" + data[i].title +"</td>" +
+                    "<td>" + data[i].tel +"</td>" +
+                    "<td>" + data[i].address +"</td>" +
+                    "</tr>"
+                    // js的append，可以将元素添加到body中
+                    $('#data-tab').append(tr);
+                }
+
+                //css选择器写法，在jq中可以兼容
+                // $('#data-tab').append(tr);
+
+            },
+            error:function(err) {
+                console.log(err)
+            }
+        });
+    }
+</script>
