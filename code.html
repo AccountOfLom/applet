@@ -44,6 +44,8 @@
                 <button onclick="pre()">上一页</button>
                 &emsp;
                 <button onclick="next()">下一页</button>
+                &emsp;
+                <button onclick="last()">最后一页</button>
             </div>
         </div>
     </center>
@@ -55,6 +57,14 @@
     //函数内的变量，只能作用于这个函数，而函数外的，是全局变量
     var keyword = "";
     var city = "";
+    var lastPage = 0; //最后一页的页码
+
+    function last()
+    {
+        //更新页码
+        $('#page-index').text(lastPage)
+        req();
+    }
 
     //查询按钮触发方法
     function query()
@@ -81,6 +91,12 @@
         var pageIndex = $('#page-index').text();
         //当前页码 + 1，注意，做运算前，字符串需先转为数字
         var curPageIndex = parseInt(pageIndex) + 1;
+
+        if (curPageIndex > lastPage) {
+            alert("已经是最后一页了!");
+            return;
+        }
+
         //更新页码
         $('#page-index').text(curPageIndex)
         req();
@@ -114,7 +130,7 @@
 
         // 判断有没有填写 关键字 和 城市，如果没有填写，则进行提示
         
-
+        //当前要请求的数据页码
         var pageIndex = $('#page-index').text();
 
         //每页数据条数
@@ -139,6 +155,10 @@
                 var jsonObj = JSON.parse(res);
                 //声明一个data变量，
                 var data = jsonObj.data;
+
+                //求总页数 = 数据总数 / 每页条目数 （进一取整）
+                var totalPage = Math.ceil(jsonObj.count / pageSize);
+                lastPage = totalPage;
 
                 //添加表头
                 $('#data-tab').append("<tr id='title'>"+
