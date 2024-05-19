@@ -12,16 +12,16 @@
             }
             td {
                 padding-right: 10px;
-            }
+            } 
         </style>
 </head>
 <body>
     <center>
         <div style="margin-top: 60px;margin-bottom: 30px;">
             <h3>百度地图搜索</h3>
-            关键字<input type="text" name="keyword" id="keyword">&nbsp;
-            城市<input type="text" name="city" id="city">&nbsp;
-            <button onclick="req()">查询</button>
+            关键字<input value="家具" type="text" name="keyword" id="keyword">&nbsp;
+            城市<input value="赣州" type="text" name="city" id="city">&nbsp;
+            <button onclick="query()">查询</button>
 
         </div>
 
@@ -51,6 +51,28 @@
 </html>
 
 <script>
+
+    //函数内的变量，只能作用于这个函数，而函数外的，是全局变量
+    var keyword = "";
+    var city = "";
+
+    //查询按钮触发方法
+    function query()
+    {
+        //每次点击查询，重置页码
+        $('#page-index').text(1)
+        //从 input 取值
+        keyword = $('#keyword').val();
+        city = $('#city').val();
+        // 判断有没有填写 关键字 和 城市，如果没有填写，则进行提示
+        // “||” 两个竖线，是 “或(or)” 的意思，也叫做 “或” 运算
+        // “&&” 两个&，是 “和(and)” 的意思，也叫做 “与” 运算
+        if (keyword == "" || city == "") {
+            alert("请输入查询条件");
+            return;  //return 是 函数返回结果的意思，会终止函数的执行
+        }
+        req();
+    }
 
     //下一页
     function next()
@@ -90,9 +112,9 @@
         //每次请求数据前，先清理掉table表格中的所有行
         $('tr').remove();
 
-        //获取 input 中的值，关键字
-        var keyword = $('#keyword').val();
-        var city = $('#city').val();
+        // 判断有没有填写 关键字 和 城市，如果没有填写，则进行提示
+        
+
         var pageIndex = $('#page-index').text();
 
         //ajax是js用来发出网络请求的方法
@@ -107,7 +129,7 @@
                 "page_index":pageIndex
             },
             success:function(res) {
-                //数据请求成功后，会执行这里得到代码
+                //数据请求成功后，会执行这里的代码
                 // console.log(res)
                 
                 //注意，当前拿到的数据是 字符串类型，必须转为 对象类型
@@ -117,6 +139,7 @@
 
                 //添加表头
                 $('#data-tab').append("<tr id='title'>"+
+                    "<td>序号</td>" +
                     "<td>店名</td>" +
                     "<td>电话</td>" +
                     "<td>地址</td>" +
@@ -126,7 +149,17 @@
                 for (i in data) {
                     // console.log(data[i])
                     //在这里，把单个家具店的信息，组装成 table 中的 tr
-                    var tr = "<tr>" + 
+
+                    var color = "";
+                    if (i % 2 == 0) {
+                        // % 是求余数，只有当前行为偶数时，有背景颜色
+                        color = "#F4F4F4";
+                    } 
+                    
+                    var number = parseInt(i) + 1;
+
+                    var tr = "<tr style='background:"+ color +"'>" + 
+                    "<td>" + number +"</td>" +
                     "<td>" + data[i].title +"</td>" +
                     "<td>" + data[i].tel +"</td>" +
                     "<td>" + data[i].address +"</td>" +
