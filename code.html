@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>地图标点信息查询</title>
     <script src="https://cdn.staticfile.net/jquery/1.10.2/jquery.min.js">
     </script>
         <style>
@@ -17,11 +17,11 @@
 </head>
 <body>
     <center>
-        <div style="margin-top: 60px;margin-bottom: 30px;">
-            <h3>百度地图搜索</h3>
-            关键字<input value="家具" type="text" name="keyword" id="keyword">&nbsp;
-            城市<input value="赣州" type="text" name="city" id="city">&nbsp;
-            <button onclick="query()">查询</button>
+        <div style="margin-top: 20px;margin-bottom: 30px;">
+            <p style="font-size:18px;"><b>地图标点信息查询</b></p>
+            关键字<input value="家具" type="text" name="keyword" id="keyword" style="margin:10px 0 10px 0"><br/>
+            城市<input value="柳州" type="text" name="city" id="city"><br/>
+            <button style="margin-top:10px;"  onclick="query()">查询</button>
 
         </div>
 
@@ -162,7 +162,7 @@
 
                 //添加表头
                 $('#data-tab').append("<tr id='title'>"+
-                    "<td>序号</td>" +
+                    "<td>No.</td>" +
                     "<td>店名</td>" +
                     "<td>电话</td>" +
                     "<td>地址</td>" +
