@@ -1,51 +1,66 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>地图标点信息查询</title>
+    <title>地图标点搜索</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.staticfile.net/jquery/1.10.2/jquery.min.js">
+        
     </script>
-        <style>
-            #title > td {
-                font-size: 20px;
-            }
-            td {
-                padding-right: 10px;
-            } 
-        </style>
+
 </head>
 <body>
     <center>
-        <div style="margin-top: 20px;margin-bottom: 30px;">
-            <p style="font-size:18px;"><b>地图标点信息查询</b></p>
-            关键字<input value="家具" type="text" name="keyword" id="keyword" style="margin:10px 0 10px 0"><br/>
-            城市<input value="柳州" type="text" name="city" id="city"><br/>
-            <button style="margin-top:10px;"  onclick="query()">查询</button>
+        <div style="margin-top: 30px;margin-bottom: 30px;">
+            <h3>百度地图搜索</h3>
+            <div class="input-group" style="width: 250px;">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">关键字</button>
+                </span>
+                <input value="家具" name="keyword" id="keyword" type="text" class="form-control">
+            </div>
+            
+            <div class="input-group" style="width: 250px;margin-top: 10px;">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">城 &nbsp;&nbsp;市</button>
+                </span>
+                <input value="柳州" name="city" id="city" type="text" class="form-control">
+            </div>
+
+            <button style="margin-top: 10px;width: 250px;"  type="button" class="btn btn-primary" onclick="query()">查询</button>
 
         </div>
 
         <div>
-            <table id="data-tab"  style="border: 1px #f4f4f4 solid;">
-                <!-- <tr id="title">
-                    <td>店名</td>
-                    <td>电话</td>
-                    <td>地址</td>
-                </tr> -->
-                <!-- <tr>
-                    <td>名门静音门锁(赣州店)</td>
-                    <td>13177762716</td>
-                    <td>赣州市章贡区粮油街大拇指幼儿园东南侧约50米</td>
-                </tr> -->
-            </table>
+            <div class="table-responsive">
+                <table id="data-tab" class="table table-striped">
+                    <!-- <tr id="title">
+                        <td>店名</td>
+                        <td>电话</td>
+                        <td>地址</td>
+                    </tr> -->
+                    <!-- <tr>
+                        <td>名门静音门锁(赣州店)</td>
+                        <td>13177762716</td>
+                        <td>赣州市章贡区粮油街大拇指幼儿园东南侧约50米</td>
+                    </tr> -->
+                </table>
+            </div>
             <div id="footer" style="display: none;">
                 第 <b><span id="page-index" >1</span></b> 页
                 &emsp;
-                <button onclick="pre()">上一页</button>
+                <button  type="button" class="btn btn-primary btn-xs" onclick="pre()">上一页</button>
                 &emsp;
-                <button onclick="next()">下一页</button>
+                <button  type="button" class="btn btn-primary btn-xs" onclick="next()">下一页</button>
                 &emsp;
-                <button onclick="last()">最后一页</button>
+                <button  type="button" class="btn btn-primary btn-xs" onclick="last()">最后一页</button>
             </div>
         </div>
     </center>
@@ -162,7 +177,7 @@
 
                 //添加表头
                 $('#data-tab').append("<tr id='title'>"+
-                    "<td>No.</td>" +
+                    "<td>序号</td>" +
                     "<td>店名</td>" +
                     "<td>电话</td>" +
                     "<td>地址</td>" +
@@ -172,18 +187,11 @@
                 for (i in data) {
                     // console.log(data[i])
                     //在这里，把单个家具店的信息，组装成 table 中的 tr
-
-                    var color = "";
-                    if (i % 2 == 0) {
-                        // % 是求余数，只有当前行为偶数时，有背景颜色
-                        color = "#F4F4F4";
-                    } 
-                    
                     //稍显稚嫩
                     // 从 第二页开始，+ （页码 + 20）
                     var number = (parseInt(i) + 1) + (pageIndex - 1) * pageSize;
 
-                    var tr = "<tr style='background:"+ color +"'>" + 
+                    var tr = "<tr>" + 
                     "<td>" + number +"</td>" +
                     "<td>" + data[i].title +"</td>" +
                     "<td>" + data[i].tel +"</td>" +
